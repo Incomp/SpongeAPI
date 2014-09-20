@@ -23,38 +23,58 @@
  * THE SOFTWARE.
  */
 
-package org.spongepowered.api.entity;
+package org.spongepowered.api.math;
 
-import org.spongepowered.api.component.attribute.Flammable;
-import org.spongepowered.api.component.attribute.Movable;
-import org.spongepowered.api.component.attribute.Positionable;
-import org.spongepowered.api.component.attribute.Rotatable;
-
-import java.util.UUID;
+import java.io.Serializable;
 
 /**
- * An entity is a Minecraft entity.
+ * Represents a euler direction, made up of both a pitch and yaw component.
  *
- * <p>Examples of entities include:</p>
- *
- * <ul>
- *     <li>Zombies</li>
- *     <li>Sheep</li>
- *     <li>Players</li>
- *     <li>Dropped items</li>
- *     <li>Dropped experience points</li>
- *     <li>etc.</li>
- * </ul>
- *
- * <p>Blocks and items (when they are in inventories) are not entities.</p>
+ * Euler directions are most commonly used by entities to represent the direction they are looking in.
  */
-public interface Entity extends Flammable, Movable, Positionable, Rotatable {
+public interface EulerDirection extends Cloneable, Comparable<EulerDirection>, Serializable {
 
     /**
-     * Gets the unique ID for this entity
+     * Returns the pitch component.
      *
-     * @return The entity's {@link UUID}
+     * @return the pitch component
      */
-    UUID getUniqueID();
+    float getPitch();
 
+    /**
+     * Returns the yaw component.
+     *
+     * @return the yaw component
+     */
+    float getYaw();
+
+    /**
+     * Converts this Euler Direction into a {@link Vector2d}.
+     *
+     * The vector will represent the directions that this direction is facing in x, y, z coordinates, with a length of 1.
+     *
+     * @return the vector representation of this direction
+     */
+    Vector2d toVector();
+
+    @Override
+    boolean equals(Object o);
+
+    @Override
+    int hashCode();
+
+    /**
+     * Returns a deep copy of this direction.
+     *
+     * @return A deep copy
+     */
+    EulerDirection clone();
+
+    /**
+     * Returns a string representation of this direction in the form "(pitch, yaw)".
+     *
+     * @return This direction as a string
+     */
+    @Override
+    String toString();
 }
